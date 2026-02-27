@@ -10,6 +10,8 @@
     Lightweight Django package for real-time team notifications on model events.
     <br />
     <br />
+    <a href="https://pypi.org/project/django-team-events/0.1.0/">PyPI</a>
+    ·
     <a href="#installation">Install</a>
     ·
     <a href="#quick-start">Quick Start</a>
