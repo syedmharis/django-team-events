@@ -41,7 +41,7 @@ def test_create_event_triggers_webhook():
     mock_response = MagicMock()
     mock_response.raise_for_status.return_value = None
 
-    with patch("django_team_events.providers.google_chat.GCHAT_WEBHOOK", WEBHOOK_URL):
+    with patch("django_team_events.providers.google_chat.get_gchat_webhook", return_value=WEBHOOK_URL):
         with patch("django_team_events.providers.google_chat.requests.post", return_value=mock_response) as mock_post:
             model.objects.create(name="test")
 
@@ -55,7 +55,7 @@ def test_create_event_triggers_webhook():
 def test_no_webhook_when_env_missing():
     model = make_model(notify_on=["create"])
 
-    with patch("django_team_events.providers.google_chat.GCHAT_WEBHOOK", None):
+    with patch("django_team_events.providers.google_chat.get_gchat_webhook", return_value=None):
         with patch("django_team_events.providers.google_chat.requests.post") as mock_post:
             model.objects.create(name="test")
 
@@ -66,7 +66,7 @@ def test_no_webhook_when_env_missing():
 def test_notify_on_respected():
     model = make_model(notify_on=["update"])
 
-    with patch("django_team_events.providers.google_chat.GCHAT_WEBHOOK", WEBHOOK_URL):
+    with patch("django_team_events.providers.google_chat.get_gchat_webhook", return_value=WEBHOOK_URL):
         with patch("django_team_events.providers.google_chat.requests.post") as mock_post:
             model.objects.create(name="test")
 

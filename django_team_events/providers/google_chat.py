@@ -2,17 +2,18 @@ import logging
 
 import requests
 
-from django_team_events.config import GCHAT_WEBHOOK
+from django_team_events.config import get_gchat_webhook
 
 logger = logging.getLogger(__name__)
 
 
 def send(message: str) -> None:
-    if not GCHAT_WEBHOOK:
+    webhook = get_gchat_webhook()
+    if not webhook:
         return
 
     try:
-        response = requests.post(GCHAT_WEBHOOK, json={"text": message}, timeout=5)
+        response = requests.post(webhook, json={"text": message}, timeout=5)
         response.raise_for_status()
     except Exception:
         logger.exception("django-team-events: failed to send Google Chat notification")

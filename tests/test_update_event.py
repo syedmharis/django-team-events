@@ -45,7 +45,7 @@ def test_update_event_triggers_webhook():
     mock_response = MagicMock()
     mock_response.raise_for_status.return_value = None
 
-    with patch("django_team_events.providers.google_chat.GCHAT_WEBHOOK", WEBHOOK_URL):
+    with patch("django_team_events.providers.google_chat.get_gchat_webhook", return_value=WEBHOOK_URL):
         with patch("django_team_events.providers.google_chat.requests.post", return_value=mock_response) as mock_post:
             instance.name = "updated"
             instance.save()
@@ -58,7 +58,7 @@ def test_update_no_meaningful_change_sends_nothing():
     model = make_model()
     instance = model.objects.create(name="same")
 
-    with patch("django_team_events.providers.google_chat.GCHAT_WEBHOOK", WEBHOOK_URL):
+    with patch("django_team_events.providers.google_chat.get_gchat_webhook", return_value=WEBHOOK_URL):
         with patch("django_team_events.providers.google_chat.requests.post") as mock_post:
             # Save without changing any field value
             instance.save()
@@ -81,7 +81,7 @@ def test_update_only_changed_fields_in_message():
     mock_response = MagicMock()
     mock_response.raise_for_status.return_value = None
 
-    with patch("django_team_events.providers.google_chat.GCHAT_WEBHOOK", WEBHOOK_URL):
+    with patch("django_team_events.providers.google_chat.get_gchat_webhook", return_value=WEBHOOK_URL):
         with patch("django_team_events.providers.google_chat.requests.post", return_value=mock_response) as mock_post:
             instance.name = "Bob"
             instance.email = "bob@example.com"

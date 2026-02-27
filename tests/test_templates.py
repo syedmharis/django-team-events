@@ -55,7 +55,7 @@ def test_custom_create_template_applied():
     mock_response = MagicMock()
     mock_response.raise_for_status.return_value = None
 
-    with patch("django_team_events.providers.google_chat.GCHAT_WEBHOOK", WEBHOOK_URL):
+    with patch("django_team_events.providers.google_chat.get_gchat_webhook", return_value=WEBHOOK_URL):
         with patch("django_team_events.providers.google_chat.requests.post", return_value=mock_response) as mock_post:
             model.objects.create(name="Alice")
 
@@ -69,7 +69,7 @@ def test_create_falls_back_to_default_when_no_template():
     mock_response = MagicMock()
     mock_response.raise_for_status.return_value = None
 
-    with patch("django_team_events.providers.google_chat.GCHAT_WEBHOOK", WEBHOOK_URL):
+    with patch("django_team_events.providers.google_chat.get_gchat_webhook", return_value=WEBHOOK_URL):
         with patch("django_team_events.providers.google_chat.requests.post", return_value=mock_response) as mock_post:
             model.objects.create(name="Alice")
 
@@ -92,7 +92,7 @@ def test_custom_update_template_applied():
     mock_response = MagicMock()
     mock_response.raise_for_status.return_value = None
 
-    with patch("django_team_events.providers.google_chat.GCHAT_WEBHOOK", WEBHOOK_URL):
+    with patch("django_team_events.providers.google_chat.get_gchat_webhook", return_value=WEBHOOK_URL):
         with patch("django_team_events.providers.google_chat.requests.post", return_value=mock_response) as mock_post:
             instance.name = "Bob"
             instance.save()
@@ -116,7 +116,7 @@ def test_fallback_when_template_key_missing_for_action():
     mock_response = MagicMock()
     mock_response.raise_for_status.return_value = None
 
-    with patch("django_team_events.providers.google_chat.GCHAT_WEBHOOK", WEBHOOK_URL):
+    with patch("django_team_events.providers.google_chat.get_gchat_webhook", return_value=WEBHOOK_URL):
         with patch("django_team_events.providers.google_chat.requests.post", return_value=mock_response) as mock_post:
             instance.name = "Bob"
             instance.save()
@@ -139,7 +139,7 @@ def test_fallback_when_template_field_missing():
     mock_response = MagicMock()
     mock_response.raise_for_status.return_value = None
 
-    with patch("django_team_events.providers.google_chat.GCHAT_WEBHOOK", WEBHOOK_URL):
+    with patch("django_team_events.providers.google_chat.get_gchat_webhook", return_value=WEBHOOK_URL):
         with patch("django_team_events.providers.google_chat.requests.post", return_value=mock_response) as mock_post:
             model.objects.create(name="Alice")
 
@@ -163,7 +163,7 @@ def test_custom_delete_template_applied():
     mock_response = MagicMock()
     mock_response.raise_for_status.return_value = None
 
-    with patch("django_team_events.providers.google_chat.GCHAT_WEBHOOK", WEBHOOK_URL):
+    with patch("django_team_events.providers.google_chat.get_gchat_webhook", return_value=WEBHOOK_URL):
         with patch("django_team_events.providers.google_chat.requests.post", return_value=mock_response) as mock_post:
             instance.delete()
 

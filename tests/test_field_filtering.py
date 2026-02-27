@@ -48,7 +48,7 @@ def test_sensitive_fields_excluded_on_create():
     mock_response = MagicMock()
     mock_response.raise_for_status.return_value = None
 
-    with patch("django_team_events.providers.google_chat.GCHAT_WEBHOOK", WEBHOOK_URL):
+    with patch("django_team_events.providers.google_chat.get_gchat_webhook", return_value=WEBHOOK_URL):
         with patch("django_team_events.providers.google_chat.requests.post", return_value=mock_response) as mock_post:
             model.objects.create(password="secret123")
 
@@ -71,7 +71,7 @@ def test_all_sensitive_field_names_excluded():
     mock_response = MagicMock()
     mock_response.raise_for_status.return_value = None
 
-    with patch("django_team_events.providers.google_chat.GCHAT_WEBHOOK", WEBHOOK_URL):
+    with patch("django_team_events.providers.google_chat.get_gchat_webhook", return_value=WEBHOOK_URL):
         with patch("django_team_events.providers.google_chat.requests.post", return_value=mock_response) as mock_post:
             model.objects.create(
                 name="Alice",
@@ -104,7 +104,7 @@ def test_sensitive_fields_excluded_on_update():
     mock_response = MagicMock()
     mock_response.raise_for_status.return_value = None
 
-    with patch("django_team_events.providers.google_chat.GCHAT_WEBHOOK", WEBHOOK_URL):
+    with patch("django_team_events.providers.google_chat.get_gchat_webhook", return_value=WEBHOOK_URL):
         with patch("django_team_events.providers.google_chat.requests.post", return_value=mock_response) as mock_post:
             instance.name = "Bob"
             instance.token = "new-token"
@@ -129,7 +129,7 @@ def test_include_fields_on_create():
     mock_response = MagicMock()
     mock_response.raise_for_status.return_value = None
 
-    with patch("django_team_events.providers.google_chat.GCHAT_WEBHOOK", WEBHOOK_URL):
+    with patch("django_team_events.providers.google_chat.get_gchat_webhook", return_value=WEBHOOK_URL):
         with patch("django_team_events.providers.google_chat.requests.post", return_value=mock_response) as mock_post:
             model.objects.create(name="Alice", email="alice@example.com")
 
@@ -151,7 +151,7 @@ def test_include_fields_on_update():
     mock_response = MagicMock()
     mock_response.raise_for_status.return_value = None
 
-    with patch("django_team_events.providers.google_chat.GCHAT_WEBHOOK", WEBHOOK_URL):
+    with patch("django_team_events.providers.google_chat.get_gchat_webhook", return_value=WEBHOOK_URL):
         with patch("django_team_events.providers.google_chat.requests.post", return_value=mock_response) as mock_post:
             instance.name = "Bob"
             instance.role = "editor"
@@ -177,7 +177,7 @@ def test_exclude_fields_on_create():
     mock_response = MagicMock()
     mock_response.raise_for_status.return_value = None
 
-    with patch("django_team_events.providers.google_chat.GCHAT_WEBHOOK", WEBHOOK_URL):
+    with patch("django_team_events.providers.google_chat.get_gchat_webhook", return_value=WEBHOOK_URL):
         with patch("django_team_events.providers.google_chat.requests.post", return_value=mock_response) as mock_post:
             model.objects.create(name="Alice", last_login="2026-01-01")
 
@@ -199,7 +199,7 @@ def test_exclude_fields_on_update():
     mock_response = MagicMock()
     mock_response.raise_for_status.return_value = None
 
-    with patch("django_team_events.providers.google_chat.GCHAT_WEBHOOK", WEBHOOK_URL):
+    with patch("django_team_events.providers.google_chat.get_gchat_webhook", return_value=WEBHOOK_URL):
         with patch("django_team_events.providers.google_chat.requests.post", return_value=mock_response) as mock_post:
             instance.name = "Bob"
             instance.last_login = "2026-02-01"
@@ -225,7 +225,7 @@ def test_include_fields_overrides_sensitive_exclusion():
     mock_response = MagicMock()
     mock_response.raise_for_status.return_value = None
 
-    with patch("django_team_events.providers.google_chat.GCHAT_WEBHOOK", WEBHOOK_URL):
+    with patch("django_team_events.providers.google_chat.get_gchat_webhook", return_value=WEBHOOK_URL):
         with patch("django_team_events.providers.google_chat.requests.post", return_value=mock_response) as mock_post:
             model.objects.create(name="Alice", token="abc123")
 

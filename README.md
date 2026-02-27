@@ -81,10 +81,20 @@ INSTALLED_APPS = [
 
 ## 🔐 Environment Configuration
 
-Set your Google Chat webhook URL as an environment variable:
+### Getting Your Google Chat Webhook URL
 
-```bash
-DJANGO_TEAM_EVENTS_GCHAT_WEBHOOK=https://chat.googleapis.com/...
+1. Open **Google Chat** and go to the Space (channel) where you want notifications
+2. Click the Space name at the top → **Apps & integrations**
+3. Click **Add webhooks**
+4. Give it a name (e.g. `django-team-events`) and optionally an avatar URL
+5. Click **Save** — copy the generated webhook URL
+
+Add to your `settings.py`:
+
+```python
+DJANGO_TEAM_EVENTS = {
+    "GCHAT_WEBHOOK": "https://chat.googleapis.com/v1/spaces/XXXXX/messages?key=...",
+}
 ```
 
 Do not hardcode webhooks in your codebase.

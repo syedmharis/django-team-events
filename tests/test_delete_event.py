@@ -42,7 +42,7 @@ def test_delete_event_triggers_webhook():
     mock_response = MagicMock()
     mock_response.raise_for_status.return_value = None
 
-    with patch("django_team_events.providers.google_chat.GCHAT_WEBHOOK", WEBHOOK_URL):
+    with patch("django_team_events.providers.google_chat.get_gchat_webhook", return_value=WEBHOOK_URL):
         with patch("django_team_events.providers.google_chat.requests.post", return_value=mock_response) as mock_post:
             instance.delete()
 
@@ -58,7 +58,7 @@ def test_delete_message_format():
     mock_response = MagicMock()
     mock_response.raise_for_status.return_value = None
 
-    with patch("django_team_events.providers.google_chat.GCHAT_WEBHOOK", WEBHOOK_URL):
+    with patch("django_team_events.providers.google_chat.get_gchat_webhook", return_value=WEBHOOK_URL):
         with patch("django_team_events.providers.google_chat.requests.post", return_value=mock_response) as mock_post:
             instance.delete()
 
@@ -73,7 +73,7 @@ def test_delete_not_triggered_when_not_in_notify_on():
     model = make_model(notify_on=["create", "update"])
     instance = model.objects.create(name="Alice")
 
-    with patch("django_team_events.providers.google_chat.GCHAT_WEBHOOK", WEBHOOK_URL):
+    with patch("django_team_events.providers.google_chat.get_gchat_webhook", return_value=WEBHOOK_URL):
         with patch("django_team_events.providers.google_chat.requests.post") as mock_post:
             instance.delete()
 
@@ -85,6 +85,6 @@ def test_delete_webhook_failure_does_not_raise():
     model = make_model(notify_on=["delete"])
     instance = model.objects.create(name="Alice")
 
-    with patch("django_team_events.providers.google_chat.GCHAT_WEBHOOK", WEBHOOK_URL):
+    with patch("django_team_events.providers.google_chat.get_gchat_webhook", return_value=WEBHOOK_URL):
         with patch("django_team_events.providers.google_chat.requests.post", side_effect=Exception("network error")):
             instance.delete()  # must not raise
